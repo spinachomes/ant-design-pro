@@ -74,6 +74,7 @@ const LoginMessage: React.FC<{
   );
 };
 const Login: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -92,21 +93,22 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({
-        ...values,
-        type,
+      const tokenInfo = await login({
+        username: values.username,
+        password: values.password,
+        // type,
       });
-      if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = '登录成功！';
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
-        return;
-      }
-      console.log(msg);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      message.success('登录成功！');
+      localStorage.setItem('access_token', tokenInfo.access_token);
+      localStorage.setItem('token_type', tokenInfo.token_type);
+      localStorage.setItem('refresh_token', tokenInfo.refresh_token);
+      const now = new Date();
+      const expires_at = new Date(now.getTime() + tokenInfo.expires_in * 1000).getTime();
+      localStorage.setItem('expires_at', expires_at + '');
+      await fetchUserInfo();
+      const urlParams = new URL(window.location.href).searchParams;
+      history.push(urlParams.get('redirect') || '/');
+      return;
     } catch (error) {
       const defaultLoginFailureMessage = '登录失败，请重试！';
       console.log(error);

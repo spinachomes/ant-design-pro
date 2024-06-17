@@ -1,12 +1,11 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from '@umijs/max';
+import qs from 'querystring';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<{
-    data: API.CurrentUser;
-  }>('/api/currentUser', {
+  return request<API.CurrentUser>('/currentUser', {
     method: 'GET',
     ...(options || {}),
   });
@@ -14,27 +13,53 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+  return request<Record<string, any>>('/login/outLogin', {
     method: 'POST',
     ...(options || {}),
   });
 }
 
 /** 登录接口 POST /api/login/account */
-export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login/account', {
+export async function login(data: { username?: string; password?: string }) {
+  const req = {
+    ...data,
+    grant_type: 'password',
+    client_id: 'test',
+    client_secret: 'test@123',
+  };
+  return request(`/oauth2/token`, {
     method: 'POST',
+    data: qs.stringify(req),
+    needAuth: false,
     headers: {
-      'Content-Type': 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    data: body,
-    ...(options || {}),
+  });
+}
+
+export async function refreshToken(data: { refresh_token: string }) {
+  const req = {
+    ...data,
+    grant_type: 'refresh_token',
+    client_id: 'test',
+    client_secret: 'test@123',
+  };
+  return request(`/oauth2/token`, {
+    method: 'POST',
+    data: qs.stringify(req),
+    needAuth: false,
+    skipErrorHandler: true,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
   });
 }
 
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
-  return request<API.NoticeIconList>('/api/notices', {
+  return request<API.NoticeIconList>('/notices', {
     method: 'GET',
     ...(options || {}),
   });
@@ -51,7 +76,7 @@ export async function rule(
   },
   options?: { [key: string]: any },
 ) {
-  return request<API.RuleList>('/api/rule', {
+  return request<API.RuleList>('/rule', {
     method: 'GET',
     params: {
       ...params,
@@ -62,33 +87,33 @@ export async function rule(
 
 /** 更新规则 PUT /api/rule */
 export async function updateRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
+  return request<API.RuleListItem>('/rule', {
     method: 'POST',
-    data:{
+    data: {
       method: 'update',
       ...(options || {}),
-    }
+    },
   });
 }
 
 /** 新建规则 POST /api/rule */
 export async function addRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
+  return request<API.RuleListItem>('/rule', {
     method: 'POST',
-    data:{
+    data: {
       method: 'post',
       ...(options || {}),
-    }
+    },
   });
 }
 
 /** 删除规则 DELETE /api/rule */
 export async function removeRule(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
+  return request<Record<string, any>>('/rule', {
     method: 'POST',
-    data:{
+    data: {
       method: 'delete',
       ...(options || {}),
-    }
+    },
   });
 }

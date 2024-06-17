@@ -20,34 +20,34 @@ const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
  * current user access， if is '', user need login
  * 如果是 pro 的预览，默认是有权限的
  */
-let access = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ? 'admin' : '';
-
-const getAccess = () => {
-  return access;
-};
+// let access = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ? 'admin' : '';
+//
+// const getAccess = () => {
+//   return access;
+// };
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': (req: Request, res: Response) => {
-    if (!getAccess()) {
-      res.status(401).send({
-        data: {
-          isLogin: false,
-        },
-        errorCode: '401',
-        errorMessage: '请先登录！',
-        success: true,
-      });
-      return;
-    }
+    // if (!getAccess()) {
+    //   res.status(401).send({
+    //     data: {
+    //       isLogin: false,
+    //     },
+    //     errorCode: '401',
+    //     errorMessage: '请先登录！',
+    //     success: true,
+    //   });
+    //   return;
+    // }
     res.send({
       success: true,
       data: {
-        name: 'Serati Ma',
+        name: '管理员',
         avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-        userid: '00000001',
-        email: 'antdesign@alipay.com',
+        userid: 'admin',
+        email: 'admin@alipay.com',
         signature: '海纳百川，有容乃大',
         title: '交互专家',
         group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
@@ -80,7 +80,7 @@ export default {
         notifyCount: 12,
         unreadCount: 11,
         country: 'China',
-        access: getAccess(),
+        access: 'admin',
         geographic: {
           province: {
             label: '浙江省',
@@ -117,87 +117,21 @@ export default {
       address: 'Sidney No. 1 Lake Park',
     },
   ],
-  'POST /api/login/account': async (req: Request, res: Response) => {
-    const { password, username, type } = req.body;
-    await waitTime(2000);
-    if (password === 'ant.design' && username === 'admin') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
-      access = 'admin';
-      return;
-    }
-    if (password === 'ant.design' && username === 'user') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'user',
-      });
-      access = 'user';
-      return;
-    }
-    if (type === 'mobile') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
-      access = 'admin';
-      return;
-    }
-
-    res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
-    });
-    access = 'guest';
-  },
   'POST /api/login/outLogin': (req: Request, res: Response) => {
-    access = '';
+    // access = '';
     res.send({ data: {}, success: true });
   },
-  'POST /api/register': (req: Request, res: Response) => {
-    res.send({ status: 'ok', currentAuthority: 'user', success: true });
-  },
-  'GET /api/500': (req: Request, res: Response) => {
-    res.status(500).send({
-      timestamp: 1513932555104,
-      status: 500,
-      error: 'error',
-      message: 'error',
-      path: '/base/category/list',
-    });
-  },
-  'GET /api/404': (req: Request, res: Response) => {
-    res.status(404).send({
-      timestamp: 1513932643431,
-      status: 404,
-      error: 'Not Found',
-      message: 'No message available',
-      path: '/base/category/list/2121212',
-    });
-  },
-  'GET /api/403': (req: Request, res: Response) => {
-    res.status(403).send({
-      timestamp: 1513932555104,
-      status: 403,
-      error: 'Forbidden',
-      message: 'Forbidden',
-      path: '/base/category/list',
-    });
-  },
-  'GET /api/401': (req: Request, res: Response) => {
-    res.status(401).send({
-      timestamp: 1513932555104,
-      status: 401,
-      error: 'Unauthorized',
-      message: 'Unauthorized',
-      path: '/base/category/list',
-    });
-  },
-
   'GET  /api/login/captcha': getFakeCaptcha,
+  'POST /api/oauth2/token': async (req: Request, res: Response) => {
+    await waitTime(500);
+    res.status(200).send({
+      access_token:
+        'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxNTM5ODUxODIyNiIsImlzcyI6Imh0dHA6Ly9zdWJtYXJpbmUucndvY2oudG9wL3N1Ym1hcmluZSIsInVzZXJJZCI6MzQxMDAwODE0ODQ4NjksInd4X29wZW5faWQiOiJvdmpNSjZSbGlnZTdGWjFCaEFzaHlCbXlPRjUwIiwiaXNfYWRtaW4iOnRydWUsImF1ZCI6InN1Ym1hcmluZSIsIm5iZiI6MTcxODYwNTc4NSwidXNlcl90eXBlIjoxLCJwaG9uZSI6IjE1Mzk4NTE4MjI2Iiwic2NvcGUiOlsicGMiXSwibmFtZSI6Iuadjua4heazoiIsImV4cCI6MTcxODYxMjk4NSwiaWF0IjoxNzE4NjA1Nzg1LCJqdGkiOiJiZDVjNmU1OC0zNGMxLTQ4MDItYTk0Zi03OThiYzM3MDAyZDYifQ.XT2Pzz9rNXl0AV5SXIieAr6Je0mWxqubg_KMFqacFKO_fUEhUetviwRBsX-Otuw75kqbLGkkzYzecCMHLFdXQXZM7TIfr7WPTBZryi5TKJ3sRbEwKl4I-Fl5OUQmhZJMizTphmKcq-sb-P9VvE5hFpAB-Z7WOOeN1BMBqLDv2tT_ymz2-gOqFt379gF_-ZJETRQJCUBk_kvDqnKAKLQ6lcd4KSpdx969patDucwIfNBurOYWeIlidB-o_JT1rnB9zeye4hPc8XVac4AxLjh7Vi4997E1XyNpeZ__6uKjgyrMBcKauayQ5-kIUW1Z0cKYOltJwJEkFAY3_SBt4G2BnQ',
+      refresh_token:
+        'OVpw1asqf5lQxNCV48RORKdF-Cvupb4t8VE6XA0MZskaDfW5q_Ha1vrdLQBPu1g5uiWl5h4Z-1l6M-LWKGlw0EGi7YHyj2pkL-ne4nfQhGNam4yZSe_6eIbhmnYa3DSP',
+      scope: 'pc',
+      token_type: 'Bearer',
+      expires_in: 7199,
+    });
+  },
 };
