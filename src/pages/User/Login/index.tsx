@@ -9,6 +9,7 @@ import Settings from '../../../../config/defaultSettings';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
 import { createStyles } from 'antd-style';
+
 const useStyles = createStyles(({ token }) => {
   return {
     action: {
@@ -22,17 +23,17 @@ const useStyles = createStyles(({ token }) => {
         color: token.colorPrimaryActive,
       },
     },
-    lang: {
-      width: 42,
-      height: 42,
-      lineHeight: '42px',
-      position: 'fixed',
-      right: 16,
-      borderRadius: token.borderRadius,
-      ':hover': {
-        backgroundColor: token.colorBgTextHover,
-      },
-    },
+    // lang: {
+    //   width: 42,
+    //   height: 42,
+    //   lineHeight: '42px',
+    //   position: 'fixed',
+    //   right: 16,
+    //   borderRadius: token.borderRadius,
+    //   ':hover': {
+    //     backgroundColor: token.colorBgTextHover,
+    //   },
+    // },
     container: {
       display: 'flex',
       flexDirection: 'column',
@@ -132,7 +133,7 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg" />}
+          logo={<img alt="logo" src={Settings.publicPath + 'logo.svg'} />}
           title="龙轩科技管理系统"
           subTitle={' '}
           initialValues={{
