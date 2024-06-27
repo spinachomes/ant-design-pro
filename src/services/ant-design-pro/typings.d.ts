@@ -2,13 +2,14 @@
 /* eslint-disable */
 import { ParamsType, ProColumns } from '@ant-design/pro-components';
 import { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
+import { FieldProps } from 'rc-field-form/lib/Field';
+import { FormItemProps } from 'antd/es/form/FormItem';
 
 declare namespace API {
   type ProColumnsExtend<T = any, ValueType = 'text'> = ProColumns<T, ValueType> &
-    ProDescriptionsItemProps<T, ValueType> & {
-      required?: boolean;
-      label?: string;
-    };
+    ProDescriptionsItemProps<T, ValueType> &
+    FieldProps<T> &
+    FormItemProps<T>;
   type PageData<T> = {
     list?: T[];
     success?: boolean;
