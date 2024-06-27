@@ -25,12 +25,23 @@ export function toFormItems(
     if (!hideInForm && valueType !== 'option') {
       const required = col.required ? col.required : false;
       const label = col.label ? col.label : (col.title as ReactNode);
-      const rules = required ? [{ required: required, message: label + '不能为空' }] : [];
+      const rules =
+        col.rules && col.rules.length > 0
+          ? col.rules
+          : required
+          ? [
+              {
+                required: required,
+                message: label + '不能为空',
+              },
+            ]
+          : [];
+      const name = col.name || col.dataIndex;
       if (valueType === 'textarea') {
         nodes.push(
           <ProFormTextArea
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -39,8 +50,8 @@ export function toFormItems(
       } else if (valueType === 'date') {
         nodes.push(
           <ProFormDatePicker
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -49,8 +60,8 @@ export function toFormItems(
       } else if (valueType === 'dateTime') {
         nodes.push(
           <ProFormDateTimePicker
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -59,8 +70,8 @@ export function toFormItems(
       } else if (valueType === 'select') {
         nodes.push(
           <ProFormSelect
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -70,8 +81,8 @@ export function toFormItems(
       } else if (valueType === 'checkbox') {
         nodes.push(
           <ProFormCheckbox.Group
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -81,8 +92,8 @@ export function toFormItems(
       } else if (valueType === 'radio') {
         nodes.push(
           <ProFormRadio.Group
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -92,8 +103,8 @@ export function toFormItems(
       } else if (valueType === 'digit') {
         nodes.push(
           <ProFormDigit
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -102,8 +113,8 @@ export function toFormItems(
       } else if (valueType === 'treeSelect') {
         nodes.push(
           <ProFormTreeSelect
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -112,8 +123,8 @@ export function toFormItems(
       } else if (valueType === 'money') {
         nodes.push(
           <ProFormMoney
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -122,8 +133,8 @@ export function toFormItems(
       } else {
         nodes.push(
           <ProFormText
-            key={col.dataIndex}
-            name={col.dataIndex}
+            key={col.key || name}
+            name={name}
             label={label}
             required={required}
             rules={rules}
@@ -143,14 +154,25 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
         const valueType = col.valueType;
         const hideInForm = (col.hideInForm = col.hideInForm ?? false);
         if (!hideInForm && valueType !== 'option') {
+          const name = col.name || col.dataIndex;
           const required = col.required ? col.required : false;
-          const rules = required ? [{ required: required, message: label + '不能为空' }] : [];
+          const rules =
+            col.rules && col.rules.length > 0
+              ? col.rules
+              : required
+              ? [
+                  {
+                    required: required,
+                    message: label + '不能为空',
+                  },
+                ]
+              : [];
           if (valueType === 'textarea') {
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormTextArea
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -161,8 +183,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormDatePicker
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -173,8 +195,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormDateTimePicker
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -185,8 +207,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormSelect
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -198,8 +220,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormCheckbox.Group
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -211,8 +233,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormRadio.Group
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -224,8 +246,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormDigit
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -236,8 +258,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormTreeSelect
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -248,8 +270,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormMoney
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}
@@ -260,8 +282,8 @@ export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<stri
             return (
               <Col span={12} key={col.dataIndex + '_col'}>
                 <ProFormText
-                  key={col.dataIndex}
-                  name={col.dataIndex}
+                  key={col.key || name}
+                  name={name}
                   label={label}
                   required={required}
                   rules={rules}

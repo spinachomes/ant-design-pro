@@ -46,6 +46,7 @@ const TableList: React.FC = () => {
           title: '状态',
           dataIndex: 'status',
           hideInForm: true,
+          fieldProps: {},
           valueEnum: {
             0: {
               text: '关闭',
