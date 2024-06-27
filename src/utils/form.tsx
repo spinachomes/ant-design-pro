@@ -25,7 +25,7 @@ export function toFormItems(
     if (!hideInForm && valueType !== 'option') {
       const required = col.required ? col.required : false;
       const label = col.label ? col.label : (col.title as ReactNode);
-      const rules = required ? [{ required: required, message: col.title + '不能为空' }] : [];
+      const rules = required ? [{ required: required, message: label + '不能为空' }] : [];
       if (valueType === 'textarea') {
         nodes.push(
           <ProFormTextArea
