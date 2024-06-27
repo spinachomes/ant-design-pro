@@ -19,7 +19,7 @@ import { ModalFormProps } from '@ant-design/pro-form/es/layouts/ModalForm';
 import { API } from '@/services/ant-design-pro/typings';
 
 const Crud = <
-  DataType extends Record<string, any> & { id?: number },
+  DataType extends Record<string, any> & { id?: any },
   Query extends ParamsType = ParamsType,
 >(props: {
   columns: (
