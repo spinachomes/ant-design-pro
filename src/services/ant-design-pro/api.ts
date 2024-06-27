@@ -2,6 +2,7 @@
 /* eslint-disable */
 import { request } from '@umijs/max';
 import qs from 'querystring';
+import { API } from '@/services/ant-design-pro/typings';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
@@ -97,12 +98,13 @@ export async function updateRule(options?: { [key: string]: any }) {
 }
 
 /** 新建规则 POST /api/rule */
-export async function addRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/rule', {
+export async function addRule(data: API.RuleListItem, options?: { [key: string]: any }) {
+  return request<void>('/rule', {
     method: 'POST',
     data: {
       method: 'post',
       ...(options || {}),
+      data: data,
     },
   });
 }

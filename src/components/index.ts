@@ -6,6 +6,8 @@
  * 布局组件
  */
 import Footer from './Footer';
+import Crud from './Crud';
 import { Question } from './RightContent';
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown';
-export { Footer, Question, AvatarDropdown, AvatarName };
+
+export { Footer, Question, AvatarDropdown, AvatarName, Crud };

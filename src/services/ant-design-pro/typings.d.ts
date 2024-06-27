@@ -1,7 +1,43 @@
 // @ts-ignore
 /* eslint-disable */
+import { ParamsType, ProColumns } from '@ant-design/pro-components';
+import { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 
 declare namespace API {
+  type ProColumnsExtend<T = any, ValueType = 'text'> = ProColumns<T, ValueType> &
+    ProDescriptionsItemProps<T, ValueType> & {
+      required?: boolean;
+      label?: string;
+    };
+  type PageData<T> = {
+    list?: T[];
+    success?: boolean;
+    total?: number;
+  };
+  type BaseQuery = ParamsType & {
+    pageSize?: number;
+    pageNum?: number;
+    t?: number;
+  };
+  type BaseForm = {
+    id: number;
+    version: number;
+  };
+  type BaseCreateAuditForm = API.BaseForm & {
+    createdBy: number;
+    createdDate: Date;
+  };
+  type BaseAuditForm = API.BaseForm & {
+    createdBy: number;
+    createdDate: Date;
+    lastModifiedDate: Date;
+    lastModifiedBy: number;
+  };
+  type Option<T> = {
+    value: T;
+    label: string;
+    children: Option<T>;
+  };
   type CurrentUser = {
     name?: string;
     avatar?: string;
@@ -35,6 +71,7 @@ declare namespace API {
   };
 
   type RuleListItem = {
+    id?: number;
     key?: number;
     disabled?: boolean;
     href?: string;

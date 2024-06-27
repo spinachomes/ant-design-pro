@@ -9,6 +9,8 @@ import {
 import '@umijs/max';
 import { Modal } from 'antd';
 import React from 'react';
+import { API } from '@/services/ant-design-pro/typings';
+
 export type FormValueType = {
   target?: string;
   template?: string;
