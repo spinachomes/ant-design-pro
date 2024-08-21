@@ -3,6 +3,7 @@ import {
   ProFormDatePicker,
   ProFormDateTimePicker,
   ProFormDigit,
+  ProFormInstance,
   ProFormMoney,
   ProFormRadio,
   ProFormSelect,
@@ -10,16 +11,26 @@ import {
   ProFormTextArea,
   ProFormTreeSelect,
 } from '@ant-design/pro-components';
-import { ReactNode } from 'react';
+import { MutableRefObject, ReactNode } from 'react';
 import { Col, Row } from 'antd';
 import { API } from '@/services/ant-design-pro/typings';
 
 export function toFormItems(
   cols: API.ProColumnsExtend[],
+  formRef: MutableRefObject<ProFormInstance | undefined>,
   dictMap?: Record<string, any[]>,
 ): ReactNode[] {
   const nodes: ReactNode[] = [];
-  cols.forEach((col) => {
+  for (let col of cols) {
+    const customFormItem = col.customFormItem;
+    if (customFormItem) {
+      if (typeof customFormItem === 'function') {
+        nodes.push(customFormItem(formRef));
+      } else {
+        nodes.push(customFormItem);
+      }
+      continue;
+    }
     const valueType = col.valueType;
     const hideInForm = (col.hideInForm = col.hideInForm ?? false);
     if (!hideInForm && valueType !== 'option') {
@@ -142,157 +153,24 @@ export function toFormItems(
         );
       }
     }
-  });
+  }
   return nodes;
 }
 
-export function toFormItems2(cols: API.ProColumnsExtend[], dictMap?: Record<string, any[]>) {
+export function toFormItems2(
+  cols: API.ProColumnsExtend[],
+  formRef: MutableRefObject<ProFormInstance | undefined>,
+  dictMap?: Record<string, any[]>,
+) {
+  const formItems = toFormItems(cols, formRef, dictMap);
   return (
     <Row key={'row'} gutter={24}>
-      {cols.map((col) => {
-        const label = col.label ? col.label : (col.title as ReactNode);
-        const valueType = col.valueType;
-        const hideInForm = (col.hideInForm = col.hideInForm ?? false);
-        if (!hideInForm && valueType !== 'option') {
-          const name = col.name || col.dataIndex;
-          const required = col.required ? col.required : false;
-          const rules =
-            col.rules && col.rules.length > 0
-              ? col.rules
-              : required
-              ? [
-                  {
-                    required: required,
-                    message: label + '不能为空',
-                  },
-                ]
-              : [];
-          if (valueType === 'textarea') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormTextArea
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          } else if (valueType === 'date') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormDatePicker
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          } else if (valueType === 'dateTime') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormDateTimePicker
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          } else if (valueType === 'select') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormSelect
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                  options={dictMap?.[col.dataIndex]}
-                />
-              </Col>
-            );
-          } else if (valueType === 'checkbox') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormCheckbox.Group
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                  options={dictMap?.[col.dataIndex]}
-                />
-              </Col>
-            );
-          } else if (valueType === 'radio') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormRadio.Group
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                  options={dictMap?.[col.dataIndex]}
-                />
-              </Col>
-            );
-          } else if (valueType === 'digit') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormDigit
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          } else if (valueType === 'treeSelect') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormTreeSelect
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          } else if (valueType === 'money') {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormMoney
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          } else {
-            return (
-              <Col span={12} key={col.dataIndex + '_col'}>
-                <ProFormText
-                  key={col.key || name}
-                  name={name}
-                  label={label}
-                  required={required}
-                  rules={rules}
-                />
-              </Col>
-            );
-          }
-        }
-        return null;
+      {formItems.map((item, index) => {
+        return (
+          <Col span={12} key={index + '_col'}>
+            {item}
+          </Col>
+        );
       })}
     </Row>
   );

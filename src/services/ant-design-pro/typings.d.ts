@@ -1,15 +1,20 @@
 // @ts-ignore
 /* eslint-disable */
-import { ParamsType, ProColumns } from '@ant-design/pro-components';
+import { ParamsType, ProColumns, ProFormInstance } from '@ant-design/pro-components';
 import { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import { FieldProps } from 'rc-field-form/lib/Field';
 import { FormItemProps } from 'antd/es/form/FormItem';
+import { ReactNode } from 'react';
 
 declare namespace API {
   type ProColumnsExtend<T = any, ValueType = 'text'> = ProColumns<T, ValueType> &
     ProDescriptionsItemProps<T, ValueType> &
     FieldProps<T> &
-    FormItemProps<T>;
+    FormItemProps<T> & {
+      customFormItem?: (
+        formRef: MutableRefObject<ProFormInstance | undefined>,
+      ) => ReactNode | ReactNode;
+    };
   type PageData<T> = {
     list?: T[];
     success?: boolean;

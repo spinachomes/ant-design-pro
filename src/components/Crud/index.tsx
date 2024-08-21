@@ -6,10 +6,11 @@ import {
   ProDescriptions,
   ProDescriptionsItemProps,
   ProDescriptionsProps,
+  ProFormInstance,
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
 import { Button, Drawer, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { SortOrder } from 'antd/lib/table/interface';
@@ -38,7 +39,12 @@ const Crud = <
     detail?: (params: Record<string, any> | undefined) => Promise<DataType>;
   };
   dictMap?: Record<string, any[]>;
-  tableProps?: ProTableProps<DataType, Query>;
+  tableProps?: (
+    setCurrentRow: Dispatch<SetStateAction<DataType | undefined>>,
+    setOpenForm: Dispatch<SetStateAction<boolean>>,
+    setShowDetail: Dispatch<SetStateAction<boolean>>,
+    defaultAddButton: ReactNode,
+  ) => ProTableProps<DataType, Query>;
   formProps?: ModalFormProps<DataType> & { formColNum?: number };
   descriptionsProps?: (d: DataType | undefined) => ProDescriptionsProps<DataType>;
 }) => {
@@ -47,8 +53,28 @@ const Crud = <
   const [openForm, setOpenForm] = useState<boolean>(false);
   const [currentRow, setCurrentRow] = useState<DataType>();
   const [showDetail, setShowDetail] = useState<boolean>(false);
+  const formRef = useRef<ProFormInstance>();
+  const defaultAddButton = (
+    <Button
+      key={'add'}
+      type="primary"
+      onClick={() => {
+        setCurrentRow(undefined);
+        setOpenForm(true);
+      }}
+    >
+      <PlusOutlined /> 新增
+    </Button>
+  );
 
   const _columns = props.columns(setCurrentRow, setOpenForm, setShowDetail);
+  const tableProps = props.tableProps?.(
+    setCurrentRow,
+    setOpenForm,
+    setShowDetail,
+    defaultAddButton,
+  );
+
   return (
     <PageContainer>
       <ProTable<DataType, Query>
@@ -57,26 +83,15 @@ const Crud = <
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          props.request.add && (
-            <Button
-              type="primary"
-              onClick={() => {
-                setCurrentRow(undefined);
-                setOpenForm(true);
-              }}
-            >
-              <PlusOutlined /> 新增
-            </Button>
-          ),
-        ]}
+        toolBarRender={() => [props.request.add && defaultAddButton]}
         request={(params, sort, filter) => props.request.list({ ...params, ...filter }, sort)}
         columns={_columns as ProColumns<DataType>[]}
-        {...props.tableProps}
+        {...tableProps}
       />
       <ModalForm
         open={openForm}
         onOpenChange={setOpenForm}
+        formRef={formRef}
         title={currentRow?.id ? '编辑' : '新增'}
         width={props.formProps?.formColNum && props.formProps?.formColNum > 1 ? '700px' : '400px'}
         initialValues={currentRow}
@@ -105,8 +120,8 @@ const Crud = <
         {...props.formProps}
       >
         {props.formProps?.formColNum && props.formProps?.formColNum > 1
-          ? toFormItems2(_columns, props.dictMap)
-          : toFormItems(_columns, props.dictMap)}
+          ? toFormItems2(_columns, formRef, props.dictMap)
+          : toFormItems(_columns, formRef, props.dictMap)}
       </ModalForm>
       <Drawer
         width={600}
