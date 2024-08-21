@@ -6,7 +6,7 @@ import { API } from '@/services/ant-design-pro/typings';
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<API.CurrentUser>('/currentUser', {
+  return request<Person.UserInfo>('/sys/user/info', {
     method: 'GET',
     ...(options || {}),
   });

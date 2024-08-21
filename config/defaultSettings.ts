@@ -17,13 +17,25 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: '龙轩科技管理系统',
+  title: '国家移民局常备力量第二总队',
   pwa: true,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: '/assets/logo.svg',
   iconfontUrl: '',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式
     //https://procomponents.ant.design/components/layout#%E9%80%9A%E8%BF%87-token-%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F
+    sider: {
+      colorMenuBackground: '#01135b',
+      // colorTextMenuTitle: '#4080ff',
+      colorTextMenu: '#fff',
+      colorTextMenuSelected: '#4080ff',
+      colorTextMenuItemHover: '#4080ff',
+    },
+    header: {
+      colorBgHeader: '#3959bc',
+      colorHeaderTitle: '#fff',
+      colorTextRightActionsItem: '#fff',
+    },
   },
 };
 

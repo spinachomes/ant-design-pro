@@ -12,22 +12,64 @@
  */
 export default [
   {
+    path: '/sys',
+    name: '系统管理',
+    routes: [
+      {
+        path: '/sys/menu',
+        name: '菜单管理',
+        component: './Sys/Menu',
+        access: 'sys-menu:list',
+      },
+      {
+        path: '/sys/role',
+        name: '角色管理',
+        component: './Sys/Role',
+        access: 'sys-role:list',
+      },
+      {
+        path: '/sys/dict',
+        name: '字典表',
+        component: './Sys/Dict',
+        access: 'sys-dict:list',
+      },
+      // {
+      //   path: '/sys/dept',
+      //   name: '部门管理',
+      //   component: './Sys/Dept',
+      //   access: 'sys-dept:tree',
+      // },
+      // {
+      //   path: '/sys/operationLog',
+      //   name: '操作日志',
+      //   component: './Sys/OperationLog',
+      //   access: 'sys-operationLog:list',
+      // },
+      // {
+      //   path: '/sys/loginLog',
+      //   name: '登录日志',
+      //   component: './Sys/LoginLog',
+      //   access: 'sys-loginLog:list',
+      // },
+    ],
+  },
+  {
     path: '/user',
     layout: false,
     routes: [{ name: '登录', path: '/user/login', component: './User/Login' }],
   },
-  { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
-  {
-    path: '/admin',
-    name: '管理页',
-    icon: 'crown',
-    access: 'canAdmin',
-    routes: [
-      { path: '/admin', redirect: '/admin/sub-page' },
-      { path: '/admin/sub-page', name: '二级管理页', component: './Admin' },
-    ],
-  },
-  { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
-  { path: '/', redirect: '/welcome' },
+  // { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
+  // {
+  //   path: '/admin',
+  //   name: '管理页',
+  //   icon: 'crown',
+  //   access: 'canAdmin',
+  //   routes: [
+  //     { path: '/admin', redirect: '/admin/sub-page' },
+  //     { path: '/admin/sub-page', name: '二级管理页', component: './Admin' },
+  //   ],
+  // },
+  // { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
+  { path: '/', redirect: '/sys/role' },
   { path: '*', layout: false, component: './404' },
 ];

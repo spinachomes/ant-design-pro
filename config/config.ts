@@ -75,7 +75,7 @@ export default defineConfig({
    * @name layout 插件
    * @doc https://umijs.org/docs/max/layout-menu
    */
-  title: '龙轩科技管理系统',
+  title: '国家移民局常备力量第二总队',
   layout: {
     locale: true,
     ...defaultSettings,

@@ -9,26 +9,28 @@ const Footer: React.FC = () => {
         background: 'none',
       }}
       copyright={new Date().getFullYear().toString()}
-      links={[
-        {
-          key: 'Longxuan Tech',
-          title: '龙轩科技',
-          href: 'https://www.rwocj.top',
-          blankTarget: true,
-        },
-        // {
-        //   key: 'github',
-        //   title: <GithubOutlined />,
-        //   href: 'https://github.com/ant-design/ant-design-pro',
-        //   blankTarget: true,
-        // },
-        // {
-        //   key: 'Ant Design',
-        //   title: 'Ant Design',
-        //   href: 'https://ant.design',
-        //   blankTarget: true,
-        // },
-      ]}
+      links={
+        [
+          // {
+          //   key: 'Longxuan Tech',
+          //   title: '国家移民局常备力量第二总队',
+          //   href: 'https://www.rwocj.top',
+          //   blankTarget: true,
+          // },
+          // {
+          //   key: 'github',
+          //   title: <GithubOutlined />,
+          //   href: 'https://github.com/ant-design/ant-design-pro',
+          //   blankTarget: true,
+          // },
+          // {
+          //   key: 'Ant Design',
+          //   title: 'Ant Design',
+          //   href: 'https://ant.design',
+          //   blankTarget: true,
+          // },
+        ]
+      }
     />
   );
 };

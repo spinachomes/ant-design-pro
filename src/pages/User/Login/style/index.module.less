@@ -1,0 +1,144 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background-image: url('/assets/bg-1.jpeg');
+  background-size: cover;
+
+  .banner {
+    width: 550px;
+    background: linear-gradient(163.85deg, #1d2129 0%, #00308f 100%);
+  }
+
+  .content {
+    flex: 1;
+    position: relative;
+    padding-bottom: 40px;
+  }
+
+  .footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+.logo {
+  position: fixed;
+  top: 24px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1;
+
+  &-text {
+    margin-left: 4px;
+    margin-right: 4px;
+    font-size: 20px;
+    color: rgb(247, 248, 250, 1);
+  }
+}
+
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-inner {
+    height: 100%;
+    flex: 1;
+  }
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel {
+  height: 100%;
+
+  &-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  &-title {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    color: rgb(247, 248, 250, 1);
+  }
+
+  &-sub-title {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 22px;
+    color: rgb(134, 144, 156, 1);
+  }
+
+  &-image {
+    margin-top: 30px;
+    width: 320px;
+  }
+}
+
+.login-form {
+  width: 320px;
+  margin-bottom: 40px;
+
+  &-wrapper {
+    // position: static;
+    background-color: #fff;
+    border-radius: 20px;
+    width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-logo-wrapper {
+    position: absolute;
+  }
+
+  &-logo {
+    position: relative;
+    top: -44px;
+  }
+
+  &-title {
+    margin-top: 67px;
+    font-family: 'PingFang SC';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    color: rgb(29, 33, 41, 1);
+    // color: #1d2129;
+  }
+
+  &-sub-title {
+    font-size: 16px;
+    line-height: 24px;
+    color: rgb(134, 144, 156, 1);
+  }
+
+  &-error-msg {
+    height: 32px;
+    line-height: 32px;
+    color: #f53f3fff;
+  }
+
+  &-password-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-register-btn {
+    color: rgb(134, 144, 156, 1) !important;
+  }
+}
