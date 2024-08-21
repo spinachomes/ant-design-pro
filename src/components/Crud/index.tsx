@@ -10,7 +10,14 @@ import {
   ProTable,
   ProTableProps,
 } from '@ant-design/pro-components';
-import React, { Dispatch, ReactNode, SetStateAction, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  MutableRefObject,
+  ReactNode,
+  SetStateAction,
+  useRef,
+  useState,
+} from 'react';
 import { Button, Drawer, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { SortOrder } from 'antd/lib/table/interface';
@@ -23,11 +30,12 @@ const Crud = <
   DataType extends Record<string, any> & { id?: any },
   Query extends ParamsType = ParamsType,
 >(props: {
-  columns: (
-    setCurrentRow: Dispatch<SetStateAction<DataType | undefined>>,
-    setOpenForm: Dispatch<SetStateAction<boolean>>,
-    setShowDetail: Dispatch<SetStateAction<boolean>>,
-  ) => API.ProColumnsExtend<DataType>[];
+  columns: (props: {
+    setCurrentRow: Dispatch<SetStateAction<DataType | undefined>>;
+    setOpenForm: Dispatch<SetStateAction<boolean>>;
+    setShowDetail: Dispatch<SetStateAction<boolean>>;
+    actionRef: MutableRefObject<ActionType | undefined>;
+  }) => API.ProColumnsExtend<DataType>[];
   request: {
     list: (
       query: Record<string, any>,
@@ -35,16 +43,16 @@ const Crud = <
     ) => Promise<API.PageData<DataType[]>>;
     add?: (data: DataType, options?: { [key: string]: any }) => Promise<void>;
     edit?: (data: DataType, options?: { [key: string]: any }) => Promise<void>;
-    remove?: (id?: number, options?: { [key: string]: any }) => Promise<void>;
+    // remove?: (id?: number, options?: { [key: string]: any }) => Promise<void>;
     detail?: (params: Record<string, any> | undefined) => Promise<DataType>;
   };
   dictMap?: Record<string, any[]>;
-  tableProps?: (
-    setCurrentRow: Dispatch<SetStateAction<DataType | undefined>>,
-    setOpenForm: Dispatch<SetStateAction<boolean>>,
-    setShowDetail: Dispatch<SetStateAction<boolean>>,
-    defaultAddButton: ReactNode,
-  ) => ProTableProps<DataType, Query>;
+  tableProps?: (props: {
+    setCurrentRow: Dispatch<SetStateAction<DataType | undefined>>;
+    setOpenForm: Dispatch<SetStateAction<boolean>>;
+    setShowDetail: Dispatch<SetStateAction<boolean>>;
+    defaultAddButton: ReactNode;
+  }) => ProTableProps<DataType, Query>;
   formProps?: ModalFormProps<DataType> & { formColNum?: number };
   descriptionsProps?: (d: DataType | undefined) => ProDescriptionsProps<DataType>;
 }) => {
@@ -67,13 +75,13 @@ const Crud = <
     </Button>
   );
 
-  const _columns = props.columns(setCurrentRow, setOpenForm, setShowDetail);
-  const tableProps = props.tableProps?.(
+  const _columns = props.columns({ setCurrentRow, setOpenForm, setShowDetail, actionRef });
+  const tableProps = props.tableProps?.({
     setCurrentRow,
     setOpenForm,
     setShowDetail,
     defaultAddButton,
-  );
+  });
 
   return (
     <PageContainer>

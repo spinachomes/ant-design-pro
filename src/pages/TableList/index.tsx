@@ -11,7 +11,7 @@ const TableList: React.FC = () => {
     descriptionsProps: (item) => {
       return { title: item?.name };
     },
-    columns: (setCurrentRow, setOpenForm, setShowDetail) => {
+    columns: ({ setCurrentRow, setOpenForm, setShowDetail }) => {
       return [
         {
           title: '规则名称',

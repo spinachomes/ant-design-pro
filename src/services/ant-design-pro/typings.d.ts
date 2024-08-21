@@ -12,8 +12,10 @@ declare namespace API {
     FieldProps<T> &
     FormItemProps<T> & {
       customFormItem?: (
-        formRef: MutableRefObject<ProFormInstance | undefined>,
+        formRef?: MutableRefObject<ProFormInstance | undefined>,
       ) => ReactNode | ReactNode;
+      isPrimaryKey?: boolean;
+      disabled?: boolean;
     };
   type PageData<T> = {
     list?: T[];
@@ -26,7 +28,7 @@ declare namespace API {
     t?: number;
   };
   type BaseForm = {
-    id: number;
+    id?: number;
     version: number;
   };
   type BaseCreateAuditForm = API.BaseForm & {
@@ -44,6 +46,7 @@ declare namespace API {
     label: string;
     children: Option<T>;
   };
+  type OptionMap = Map<string, API.Option<string>[]>;
   type CurrentUser = {
     name?: string;
     avatar?: string;

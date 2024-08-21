@@ -17,7 +17,7 @@ import { API } from '@/services/ant-design-pro/typings';
 
 export function toFormItems(
   cols: API.ProColumnsExtend[],
-  formRef: MutableRefObject<ProFormInstance | undefined>,
+  formRef?: MutableRefObject<ProFormInstance | undefined>,
   dictMap?: Record<string, any[]>,
 ): ReactNode[] {
   const nodes: ReactNode[] = [];
@@ -33,7 +33,9 @@ export function toFormItems(
     }
     const valueType = col.valueType;
     const hideInForm = (col.hideInForm = col.hideInForm ?? false);
-    if (!hideInForm && valueType !== 'option') {
+    const disabled = (col.disabled = col.disabled ?? false);
+    const isPrimaryKey = (col.isPrimaryKey = col.isPrimaryKey ?? false);
+    if ((!hideInForm || isPrimaryKey) && valueType !== 'option') {
       const required = col.required ? col.required : false;
       const label = col.label ? col.label : (col.title as ReactNode);
       const rules =
@@ -56,6 +58,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       } else if (valueType === 'date') {
@@ -66,6 +69,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       } else if (valueType === 'dateTime') {
@@ -76,6 +80,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       } else if (valueType === 'select') {
@@ -86,6 +91,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
             options={dictMap?.[col.dataIndex]}
           />,
         );
@@ -97,6 +103,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
             options={dictMap?.[col.dataIndex]}
           />,
         );
@@ -108,6 +115,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
             options={dictMap?.[col.dataIndex]}
           />,
         );
@@ -119,6 +127,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       } else if (valueType === 'treeSelect') {
@@ -129,6 +138,7 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       } else if (valueType === 'money') {
@@ -139,16 +149,19 @@ export function toFormItems(
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       } else {
         nodes.push(
           <ProFormText
             key={col.key || name}
+            hidden={isPrimaryKey}
             name={name}
             label={label}
             required={required}
             rules={rules}
+            disabled={disabled}
           />,
         );
       }
@@ -159,7 +172,7 @@ export function toFormItems(
 
 export function toFormItems2(
   cols: API.ProColumnsExtend[],
-  formRef: MutableRefObject<ProFormInstance | undefined>,
+  formRef?: MutableRefObject<ProFormInstance | undefined>,
   dictMap?: Record<string, any[]>,
 ) {
   const formItems = toFormItems(cols, formRef, dictMap);
