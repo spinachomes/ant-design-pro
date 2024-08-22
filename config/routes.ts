@@ -33,24 +33,24 @@ export default [
         component: './Sys/Dict',
         access: 'sys-dict:list',
       },
-      // {
-      //   path: '/sys/dept',
-      //   name: '部门管理',
-      //   component: './Sys/Dept',
-      //   access: 'sys-dept:tree',
-      // },
-      // {
-      //   path: '/sys/operationLog',
-      //   name: '操作日志',
-      //   component: './Sys/OperationLog',
-      //   access: 'sys-operationLog:list',
-      // },
-      // {
-      //   path: '/sys/loginLog',
-      //   name: '登录日志',
-      //   component: './Sys/LoginLog',
-      //   access: 'sys-loginLog:list',
-      // },
+      {
+        path: '/sys/dept',
+        name: '部门管理',
+        component: './Sys/Dept',
+        access: 'sys-dept:tree',
+      },
+      {
+        path: '/sys/operationLog',
+        name: '操作日志',
+        component: './Sys/OperationLog',
+        access: 'sys-operationLog:list',
+      },
+      {
+        path: '/sys/loginLog',
+        name: '登录日志',
+        component: './Sys/LoginLog',
+        access: 'sys-loginLog:list',
+      },
     ],
   },
   {

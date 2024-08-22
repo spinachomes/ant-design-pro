@@ -46,7 +46,6 @@ const Crud = <
     // remove?: (id?: number, options?: { [key: string]: any }) => Promise<void>;
     detail?: (params: Record<string, any> | undefined) => Promise<DataType>;
   };
-  dictMap?: Record<string, any[]>;
   tableProps?: (props: {
     setCurrentRow: Dispatch<SetStateAction<DataType | undefined>>;
     setOpenForm: Dispatch<SetStateAction<boolean>>;
@@ -128,8 +127,8 @@ const Crud = <
         {...props.formProps}
       >
         {props.formProps?.formColNum && props.formProps?.formColNum > 1
-          ? toFormItems2(_columns, formRef, props.dictMap)
-          : toFormItems(_columns, formRef, props.dictMap)}
+          ? toFormItems2(_columns, formRef)
+          : toFormItems(_columns, formRef)}
       </ModalForm>
       <Drawer
         width={600}

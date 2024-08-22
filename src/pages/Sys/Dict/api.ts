@@ -53,7 +53,7 @@ export async function removeDictData(id: number) {
 export async function dictOptions(dictTypes: string[]) {
   if (dictTypes?.length <= 0) {
     console.error('字典表查询，对象为空');
-    return {};
+    return {} as API.OptionMap;
   }
   return request<API.OptionMap>(`/sys/dict/data/options`, { method: 'POST', data: [...dictTypes] });
 }
