@@ -4,7 +4,7 @@ import { message, notification } from 'antd';
 // @ts-ignore
 import FileSaver from 'file-saver';
 import { history } from '@umijs/max';
-import { refreshToken } from '@/services/ant-design-pro/api';
+import { refreshToken } from '@/pages/User/Login/api';
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -205,9 +205,9 @@ export const errorConfig: RequestConfig = {
             }
           } else {
             if (response.status === 401) {
-              setTimeout(() => history.push('/user/login'), 1500);
+              message.error('登录已过期, 请重新登录');
+              setTimeout(() => history.push('/user/login'), 500);
             }
-            // message.error(res.message || '发生错误,请稍候重试')
           }
           return response;
         }
