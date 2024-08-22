@@ -55,7 +55,6 @@ const TableList: React.FC = () => {
           {
             title: '类型',
             dataIndex: 'type',
-            width: 80,
             valueType: 'radio',
             hideInSearch: true,
             fieldProps: {
@@ -66,7 +65,6 @@ const TableList: React.FC = () => {
             title: '是否成功',
             dataIndex: 'success',
             hideInSearch: true,
-            width: 80,
             renderText(col) {
               return col ? '成功' : '失败';
             },
@@ -82,7 +80,6 @@ const TableList: React.FC = () => {
           {
             title: '客户端IP',
             dataIndex: 'ip',
-            width: 120,
             hideInSearch: true,
           },
           {

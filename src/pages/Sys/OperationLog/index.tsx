@@ -49,7 +49,6 @@ const TableList: React.FC = () => {
             title: '来源系统',
             dataIndex: 'clientId',
             hideInSearch: true,
-            width: 80,
             render(col) {
               return col === 'camp-wx' ? '小程序' : col === 'camp-pc' ? 'PC端' : col;
             },
@@ -57,7 +56,6 @@ const TableList: React.FC = () => {
           {
             title: '客户端IP',
             dataIndex: 'ip',
-            width: 120,
             hideInSearch: true,
           },
           {
@@ -73,14 +71,12 @@ const TableList: React.FC = () => {
           {
             title: '操作名称',
             dataIndex: 'operationName',
-            width: 120,
             hideInSearch: true,
           },
           {
             title: '是否成功',
             dataIndex: 'success',
             hideInSearch: true,
-            width: 80,
             render(col) {
               return col ? '成功' : '失败';
             },
