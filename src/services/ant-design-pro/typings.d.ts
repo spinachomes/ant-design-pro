@@ -46,7 +46,7 @@ declare namespace API {
     label: string;
     children: Option<T>;
   };
-  type OptionMap = Map<string, API.Option<string>[]>;
+  type OptionMap = Record<string, API.Option<string>[]>;
   type CurrentUser = {
     name?: string;
     avatar?: string;

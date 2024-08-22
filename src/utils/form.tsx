@@ -18,7 +18,6 @@ import { API } from '@/services/ant-design-pro/typings';
 export function toFormItems(
   cols: API.ProColumnsExtend[],
   formRef?: MutableRefObject<ProFormInstance | undefined>,
-  dictMap?: Record<string, any[]>,
 ): ReactNode[] {
   const nodes: ReactNode[] = [];
   for (let col of cols) {
@@ -84,6 +83,7 @@ export function toFormItems(
           />,
         );
       } else if (valueType === 'select') {
+        // @ts-ignore
         nodes.push(
           <ProFormSelect
             key={col.key || name}
@@ -92,7 +92,7 @@ export function toFormItems(
             required={required}
             rules={rules}
             disabled={disabled}
-            options={dictMap?.[col.dataIndex]}
+            options={col.fieldProps?.options}
           />,
         );
       } else if (valueType === 'checkbox') {
@@ -104,7 +104,7 @@ export function toFormItems(
             required={required}
             rules={rules}
             disabled={disabled}
-            options={dictMap?.[col.dataIndex]}
+            options={col.fieldProps?.options}
           />,
         );
       } else if (valueType === 'radio') {
@@ -116,7 +116,7 @@ export function toFormItems(
             required={required}
             rules={rules}
             disabled={disabled}
-            options={dictMap?.[col.dataIndex]}
+            options={col.fieldProps?.options}
           />,
         );
       } else if (valueType === 'digit') {
@@ -173,9 +173,8 @@ export function toFormItems(
 export function toFormItems2(
   cols: API.ProColumnsExtend[],
   formRef?: MutableRefObject<ProFormInstance | undefined>,
-  dictMap?: Record<string, any[]>,
 ) {
-  const formItems = toFormItems(cols, formRef, dictMap);
+  const formItems = toFormItems(cols, formRef);
   return (
     <Row key={'row'} gutter={24}>
       {formItems.map((item, index) => {
